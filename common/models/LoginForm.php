@@ -9,9 +9,10 @@ use yii\base\Model;
  */
 class LoginForm extends Model
 {
-    public $username;
+    public $email;
     public $password;
     public $rememberMe = true;
+    public $login_error;
 
     private $_user;
 
@@ -23,7 +24,7 @@ class LoginForm extends Model
     {
         return [
             // username and password are both required
-            [['username', 'password'], 'required'],
+            [['email', 'password'], 'required'],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
@@ -42,8 +43,9 @@ class LoginForm extends Model
     {
         if (!$this->hasErrors()) {
             $user = $this->getUser();
-            if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+
+            if (!$user || !$this->getPassword($user,$this->password)) {
+                $this->addError($attribute, 'Неправильный адрес или пароль.');
             }
         }
     }
@@ -53,24 +55,43 @@ class LoginForm extends Model
      *
      * @return bool whether the user is logged in successfully
      */
+
+    public function getPassword($user, $password){
+        if($password != $user->password){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public function login()
     {
-        if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+        $user = User::findByEmail($this->email);
+
+        if ($this->validate() ) {
+            if(!$user->role == 0){
+                return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+            } else {
+                $this->login_error = true;
+                return false;
+            }
+
         } else {
             return false;
         }
     }
+
 
     /**
      * Finds user by [[username]]
      *
      * @return User|null
      */
+
     protected function getUser()
     {
         if ($this->_user === null) {
-            $this->_user = User::findByUsername($this->username);
+            $this->_user = User::findByEmail($this->email);
         }
 
         return $this->_user;

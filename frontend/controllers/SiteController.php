@@ -12,10 +12,10 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
-use app\models\Balance;
-use frontend\models\AddMoneyForm;
+use common\models\Balance;
+use frontend\models\TranslateMoneyForm;
 use common\models\User;
-use app\models\Operations;
+use common\models\Operations;
 
 /**
  * Site controller
@@ -30,15 +30,13 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
                 'rules' => [
                     [
-                        'actions' => ['signup'],
+                        'actions' => ['signup', 'login', 'index'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -83,7 +81,7 @@ class SiteController extends Controller
         $taked_money = $operation -> takedMoney($user_id);
         $sended_money = $operation -> sendedMoney($user_id);
 
-        $balance = $balance->getUserBalance();
+        $balance = $balance->getUserBalance($user_id);
 
         return $this->render('index', [
             'balance' => $balance,
@@ -91,28 +89,41 @@ class SiteController extends Controller
             'sended_money' => $sended_money
         ]);
     }
-    public function actionUseroperations()
-    {
 
-        return $this->render('index', [
-            'balance' => $balance,
+    public function actionVerificatePassword($token, $email){
+       $user = User::findOne([
+           'email' => $email,
+       ]);
+        if($user -> auth_key == $token){
+            $user -> role = 1;
+            $user -> save();
+            return $this->render('index', [
+                'message' => "Вы успешно зарегистрировались на сайте. Теперь вы можнтн войти в приложение, используя адрес своей почты и пароль ",
+            ]);
+        }
+    }
+
+    public function actionOperations()
+    {
+        $operation = new Operations();
+        $operation_list = $operation->getUserOperation(Yii::$app->user->id);
+
+        return $this->render('operations', [
+            'operations' => $operation_list,
         ]);
     }
 
-    public function actionAddnew()
+    public function actionTranslateMoney()
     {
+        $user_id = Yii::$app->user->id;
         $balance = new Balance();
-        $balance_num = $balance->getUserBalance();
-        $model = new AddMoneyForm();
+        $balance_num = $balance->getUserBalance($user_id);
+        $model = new TranslateMoneyForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->addMoney()) {
-
-            $balance->takeMoney($model->current_id, $model->amount);
-            $balance->putMoney($model->recipient_id, $model->amount );
-
             return $this->goBack();
         } else {
-            return $this->render('addnew', [
+            return $this->render('translateMoney', [
                 'balance' => $balance_num,
                 'model' => $model,
             ]);
@@ -133,6 +144,7 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+
             return $this->goBack();
         } else {
             return $this->render('login', [
@@ -153,44 +165,6 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    /**
-     * Displays contact page.
-     *
-     * @return mixed
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
-            } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending email.');
-            }
-
-            return $this->refresh();
-        } else {
-            return $this->render('contact', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Displays about page.
-     *
-     * @return mixed
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
-    }
-
-    /**
-     * Signs user up.
-     *
-     * @return mixed
-     */
     public function actionSignup()
     {
         $balance = new Balance();
@@ -200,10 +174,16 @@ class SiteController extends Controller
             if ($user = $model->signup()) {
                 $balance->user_id = $user->id;
                 $balance->save();
-                if (Yii::$app->getUser()->login($user)) {
-
+                if ($model->verificationMail($user)){
+                    $this->render('index', [
+                        'message' => 'На ваш почтовый ящик отправлено письмо с дальнейшими инструкциями',
+                    ]);
                     return $this->goHome();
                 }
+//                if (Yii::$app->getUser()->login($user)) {
+//
+//                    return $this->goHome();
+//                }
             }
         }
 
@@ -212,52 +192,4 @@ class SiteController extends Controller
         ]);
     }
 
-    /**
-     * Requests password reset.
-     *
-     * @return mixed
-     */
-    public function actionRequestPasswordReset()
-    {
-        $model = new PasswordResetRequestForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
-
-                return $this->goHome();
-            } else {
-                Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
-            }
-        }
-
-        return $this->render('requestPasswordResetToken', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Resets password.
-     *
-     * @param string $token
-     * @return mixed
-     * @throws BadRequestHttpException
-     */
-    public function actionResetPassword($token)
-    {
-        try {
-            $model = new ResetPasswordForm($token);
-        } catch (InvalidParamException $e) {
-            throw new BadRequestHttpException($e->getMessage());
-        }
-
-        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->session->setFlash('success', 'New password was saved.');
-
-            return $this->goHome();
-        }
-
-        return $this->render('resetPassword', [
-            'model' => $model,
-        ]);
-    }
 }

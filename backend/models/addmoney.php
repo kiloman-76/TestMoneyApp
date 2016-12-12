@@ -1,10 +1,10 @@
 <?php
-namespace frontend\models;
+namespace backend\models;
 
-use app\models\Operations;
+use common\models\Operations;
 use Yii;
 use yii\base\Model;
-use app\models\Balance;
+use common\models\Balance;
 use common\models\User;
 
 
@@ -19,21 +19,14 @@ class AddMoneyForm extends Model
     public function rules()
     {
         $current_balance = new Balance();
-        $current_balance = $current_balance->getUserBalance();
         $current_id = Yii::$app->user->id;
+        $current_balance = $current_balance->getUserBalance($current_id);
         $currentuser = User::find()->where(['id' => $current_id]);
 
 
         $current_email = Yii::$app->user->identity->email;;
         return [
             // username and password are both required
-            [['email', 'amount'], 'required'],
-            ['email', 'trim'],
-            ['email', 'required','message' => 'Пожалуйста, введите адрес получателя'],
-            ['email', 'email','message' => 'Пожалуйста, введите адрес правильно'],
-            ['email', 'string', 'max' => 255],
-            ['email', 'exist', 'targetClass' => '\common\models\User', 'message' => 'Такого адреса нет в системе'],
-            ['email', 'compare', 'compareValue' => $current_email, 'operator' => '!='],
 
             [ 'amount','double', 'message' => 'Пожалуйста, введите число'],
             [ 'amount','double','min'=>0, 'message' => 'Сумма не может быть меньше нуля'],
@@ -49,17 +42,23 @@ class AddMoneyForm extends Model
             'email' => $this->email
         ]);
         $recipient_id = $recipient->id;
+        $balance = new Balance();
 
 
         if ($this->validate()) {
             $operations = new Operations();
             $operations->money = $this->amount;
             $operations->sender_id = $current_id;
+            $operations->sender_mail =Yii::$app->user->identity->email;
             $operations->recipient_id = $recipient_id;
+            $operations->recipient_mail = $this->email;
             $operations->creator_role = 'user';
             $operations->creator_id = $current_id;
-            $this->recipient_id = $recipient_id;
-            $this->current_id = $current_id;
+            $balance->takeMoney($current_id, $this->amount);
+            $balance->putMoney($recipient_id, $this->amount );
+            $operations->sender_balance = $balance->getUserBalance($current_id);
+            $operations->recipient_balance = $balance->getUserBalance($recipient_id);
+
             return $operations->save() ? $operations : null;
         } else {
             return false;

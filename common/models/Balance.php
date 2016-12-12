@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use yii\db\ActiveRecord;
 use common\models\User;
@@ -19,10 +19,15 @@ class Balance extends ActiveRecord
         return 'balance';
     }
 
-    public function getUserBalance(){
-        $user_id = Yii::$app->user->id;
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+
+    public function getUserBalance($id){
         $balance = Balance::findOne([
-            'user_id' => $user_id,
+            'user_id' => $id,
         ])->balance;
         return $balance;
     }

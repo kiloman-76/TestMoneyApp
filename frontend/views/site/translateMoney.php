@@ -5,46 +5,57 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'About';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Перевести деньги';
 ?>
 
 <div class="site-about">
-    <div class="jumbotron">
+
         <div class="row">
             <p>
-                        <span>
-                            <?= Html::encode("Ваш Баланс: {$balance} руб.") ?>
-                        </span>
-            </p>
-            <p>
-                    <span>
+                    <span class="header-page center-align">
                         Перевод денег
                     </span>
             </p>
+
+
             <span>Чтобы перевести деньги другому пользователю, укажите адрес его электронной почты, и денежную сумму, которую хотите перевести<br>
                     <b>Сумма не должна превышать имеющиеся у вас средства<b>
             </span>
         </div>
 
-
-            <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
+        <div class="row">
+            <?php $form = ActiveForm::begin([
+                'options' => [
+                    'class' => 'add-money-form'
+                ]
+                ]); ?>
+                    <p>
+                        <span class="balance">
+                            <?= Html::encode("Ваш баланс: {$balance} руб.") ?>
+                        </span>
+                    </p>
                 <div class="row">
-                    <div class="col-lg-4 col-lg-offset-2">
+                    <div class="col-lg-5 ">
                         <?= $form->field($model, 'email')->textInput(['autofocus' => true])->label('Адрес получателя') ?>
                     </div>
-                    <div class="col-lg-4">
+                </div>
+                <div class="row">
+                    <div class="col-lg-5">
                         <?= $form->field($model, 'amount')->label('Сумма') ?>
                     </div>
                 </div>
-                <div class="form-group">
-                    <?= Html::submitButton('Перечислить', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                <div class="row">
+                    <div class="col-lg-5 form-group">
+                        <?= Html::submitButton('Перечислить', ['class' => 'btn btn-index btn-primary', 'name' => 'signup-button']) ?>
+                    </div>
                 </div>
+            </div>
+
 
 
             <?php ActiveForm::end(); ?>
 
 
 
-    </div>
+
 </div>

@@ -9,6 +9,62 @@ body {
     margin: 0 auto -60px;
     padding: 0 0 60px;
 }
+/*---------------------------------------------My CSS-----------------------------------------------------*/
+.main-header{
+    margin-bottom: 100px;
+}
+
+.operation-item {
+    width: 100%;
+    display: inline-block;
+    font-size: 15px;
+    padding: 5px;
+    border-bottom: 1px solid gray;
+}
+
+.operation-item.green{
+    background-color: #bbffbb;
+}
+.operation-item.red{
+    background-color: #e6caca;
+}
+
+.balance{
+    font-size: 16px;
+}
+
+.header-page{
+    font-size: 35px;
+    display: block;
+    margin-bottom: 35px;
+}
+
+.sub-header{
+    font-size: 21px;
+    font-weight: 200;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.center-align{
+    text-align: center;
+}
+
+.add-money-form{
+    margin-top: 50px;
+}
+
+.btn-index{
+    font-size: 18px;
+    width: 274px;
+    display: block;
+    text-align: center;
+    margin: 10px auto 0;
+}
+/*---------------------------------------------/My CSS-----------------------------------------------------*/
+.site-index .row {
+    margin-top: 75px;
+}
 
 .wrap > .container {
     padding: 70px 15px 20px;

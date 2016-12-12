@@ -1,6 +1,7 @@
 <?php
 namespace common\models;
 
+//use app\models\Balance;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -26,6 +27,9 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
 
+    const ROLE_USER = 1;
+    const ROLE_ADMIN = 10;
+
     /**
      * @inheritdoc
      */
@@ -37,6 +41,12 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
+
+    public function getBalance()
+    {
+        return $this->hasOne(Balance::className(), ['user_id' => 'id']);
+    }
+
     public function behaviors()
     {
         return [
@@ -77,9 +87,9 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $username
      * @return static|null
      */
-    public static function findByUsername($username)
+    public static function findByEmail($email)
     {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
@@ -132,6 +142,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->auth_key;
     }
+
 
     /**
      * @inheritdoc

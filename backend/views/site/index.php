@@ -1,5 +1,8 @@
 <?php
 
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\widgets\LinkPager;
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
@@ -7,47 +10,64 @@ $this->title = 'My Yii Application';
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>Congratulations!</h1>
 
-        <p class="lead">You have successfully created your Yii-powered application.</p>
 
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
+        <p><a class="btn btn-lg btn-success" href=<?echo Url::to(['/site/add-user']);?>>Добавить пользователя</a>
+       <a class="btn btn-lg btn-success" href=<?echo Url::to(['/site/operations']);?>>Список операций</a></p>
     </div>
 
     <div class="body-content">
+        <h1>Пользователи</h1>
+        <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <td>#</td>
+                <td>Email</td>
+                <td>Баланс</td>
+                <td>Дата создания</td>
+                <td>Операции</td>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($users as $user): ?>
+                <?$time_operation = date('d M Y H:i:s', $user->created_at);?>
+                <tr>
+                    <td>
 
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
+                    </td>
+                    <td>
+                        <?= Html::encode("{$user->email}") ?>
+                    </td>
+                    <td>
+                        <?= Html::encode("{$user->balance->balance}") ?>
+                    </td>
+                    <td>
+                        <?= Html::encode("$time_operation") ?>
+                    </td>
+                    <td>
+                        <a title="Просмотр" aria-label="Просмотр" href= <?echo Url::to(['/site/about-user','id' => $user->id]);?>>
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                        </a>
+                        <a title="Редактировать" aria-label="Редактировать" href= <?echo Url::to(['/user/update','id' => $user->id]);?>>
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                        <a title="Зачислить деньги" aria-label="Зачислить деньги" href= <?echo Url::to(['/site/add-money','id' => $user->id]);?>>
+                            <span class="glyphicon glyphicon-usd"></span>
+                        </a>
+                        <a title="Перевести деньги" aria-label="Перевести деньги" href= <?echo Url::to(['/site/send-money','id' => $user->id]);?>>
+                            <span class="glyphicon glyphicon-arrow-right"></span>
+                        </a>
+                    </td>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
+                </tr>
+            <?php endforeach; ?>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
+            </tbody>
+        </table>
 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
+        <?= LinkPager::widget(['pagination' => $pagination]) ?>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
-            </div>
-        </div>
 
     </div>
 </div>
