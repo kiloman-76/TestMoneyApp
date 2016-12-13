@@ -32,7 +32,7 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['signup', 'login', 'index'],
+                        'actions' => ['signup', 'login', 'index', 'verificate-password'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -98,7 +98,7 @@ class SiteController extends Controller
             $user -> role = 1;
             $user -> save();
             return $this->render('index', [
-                'message' => "Вы успешно зарегистрировались на сайте. Теперь вы можнтн войти в приложение, используя адрес своей почты и пароль ",
+                'message' => "Вы успешно зарегистрировались на сайте. Теперь вы можете войти в приложение, используя адрес своей почты и пароль ",
             ]);
         }
     }
@@ -175,21 +175,26 @@ class SiteController extends Controller
                 $balance->user_id = $user->id;
                 $balance->save();
                 if ($model->verificationMail($user)){
-                    $this->render('index', [
+                    return $this->render('signup', [
                         'message' => 'На ваш почтовый ящик отправлено письмо с дальнейшими инструкциями',
                     ]);
-                    return $this->goHome();
+                } else{
+                    return $this->render('signup', [
+                        'model' => $model,
+                    ]);
                 }
 //                if (Yii::$app->getUser()->login($user)) {
 //
 //                    return $this->goHome();
 //                }
             }
+        } else {
+            return $this->render('signup', [
+                'model' => $model,
+            ]);
         }
 
-        return $this->render('signup', [
-            'model' => $model,
-        ]);
+
     }
 
 }

@@ -28,8 +28,8 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'Пользователь',
-        'brandUrl' => Yii::$app->homeUrl,
+        'brandLabel' => 'Панель управления',
+        'brandUrl' => '../../backend/web/index.php',
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
