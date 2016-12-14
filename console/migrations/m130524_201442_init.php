@@ -32,7 +32,7 @@ class m130524_201442_init extends Migration
     private function addUserSql(){
         $auth_key = Yii::$app->security->generateRandomString();
         $date = Yii::$app->formatter->asTimestamp(date('Y-d-m h:i:s'));
-        return "INSERT INTO {{%user}} (`password`, `email`,  `auth_key`, `role`, `created_at`, `updated_at`) VALUES ('root', 'admin@myblog.loc', '$auth_key', 10, $date, $date )";
+        return "INSERT INTO {{%user}} (`password`, `email`,  `auth_key`, `role`, `created_at`, `updated_at`) VALUES ('root', 'root@mail.ru', '$auth_key', 10, $date, $date )";
     }
 
 
