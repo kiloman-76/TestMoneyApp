@@ -68,12 +68,19 @@ if( Yii::$app->user->isGuest){
                     ?>
 
                     <?} else if ($operation->recipient_id == $user->id) {
-                        if($operation->creator_role == 'admin'){?>
-                            <p><span class="operation-item green">
-                                <?=Html::encode("Начислено {$operation->money} руб. администратором {$operation->creator_mail} {$time_operation}. Баланс пользователя {$operation->recipient_balance} руб."); ?>
-                            </span></p>
-
-                            <?
+                        if($operation->creator_role == 'admin'){
+                            if($operation->sender_id){?>
+                                <p><span class="operation-item green">
+                                    <?=Html::encode("Переведено {$operation->money} руб. администратором {$operation->creator_mail} со счета пользователя {$operation->sender_mail} {$time_operation}. Баланс пользователя {$operation->recipient_balance} руб."); ?>
+                                </span></p>
+                                <?
+                            } else {
+                                ?>
+                                    <p><span class="operation-item green">
+                                        <?=Html::encode("Начислено {$operation->money} руб. администратором {$operation->creator_mail} {$time_operation}. Баланс пользователя {$operation->recipient_balance} руб."); ?>
+                                    </span></p>
+                                <?
+                            }
                         } else if ($operation->creator_role != 'admin'){ ?>
                             <p><span class="operation-item green">
                                 <?=Html::encode("Получено {$operation->money} руб. от пользователя {$operation->sender_mail} {$time_operation}. Баланс пользователя {$operation->recipient_balance} руб."); ?>

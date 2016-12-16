@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\LinkPager;
+use common\models\Operations;
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
@@ -25,12 +26,21 @@ $this->title = 'My Yii Application';
                 <td>Email</td>
                 <td>Баланс</td>
                 <td>Дата создания</td>
+                <td>Полученные средства</td>
+                <td>Отправленные средства</td>
                 <td>Операции</td>
             </tr>
             </thead>
             <tbody>
             <?php foreach ($users as $user): ?>
                 <?$time_operation = date('d M Y H:i:s', $user->created_at);?>
+              <?
+                $operation = new Operations();
+
+                $taked_money = $operation -> takedMoney($user->id);
+                $sended_money = $operation -> sendedMoney($user->id);
+                ?>
+
                 <tr>
                     <td>
 
@@ -43,6 +53,12 @@ $this->title = 'My Yii Application';
                     </td>
                     <td>
                         <?= Html::encode("$time_operation") ?>
+                    </td>
+                    <td>
+                        <?= Html::encode("$taked_money") ?>
+                    </td>
+                    <td>
+                        <?= Html::encode("$sended_money") ?>
                     </td>
                     <td>
                         <a title="Просмотр" aria-label="Просмотр" href= <?echo Url::to(['/site/about-user','id' => $user->id]);?>>

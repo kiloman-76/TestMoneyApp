@@ -43,16 +43,13 @@ class UserControl extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['password', 'auth_key', 'password_hash', 'email', 'role', 'created_at', 'updated_at', 'date_create', 'date_update'], 'required'],
+            [['password', 'auth_key', 'email', 'role', 'created_at', 'updated_at'], 'required'],
             [['status', 'created_at', 'updated_at'], 'integer'],
-            [['date_create', 'date_update'], 'safe'],
-            [['username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
+            [['email'], 'string', 'max' => 255],
             [['password'], 'string', 'max' => 100],
             [['auth_key'], 'string', 'max' => 32],
             [['role'], 'string', 'max' => 10],
             [['email'], 'unique'],
-            [['username'], 'unique'],
-            [['password_reset_token'], 'unique'],
         ];
     }
 
