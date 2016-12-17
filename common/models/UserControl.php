@@ -43,9 +43,11 @@ class UserControl extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            ['email', 'trim'],
             [['password', 'auth_key', 'email', 'role', 'created_at', 'updated_at'], 'required'],
             [['status', 'created_at', 'updated_at'], 'integer'],
             [['email'], 'string', 'max' => 255],
+            ['email', 'email'],
             [['password'], 'string', 'max' => 100],
             [['auth_key'], 'string', 'max' => 32],
             [['role'], 'string', 'max' => 10],
@@ -59,20 +61,14 @@ class UserControl extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'username' => 'Username',
+
             'password' => 'Password',
             'auth_key' => 'Auth Key',
-            'password_hash' => 'Password Hash',
-            'password_reset_token' => 'Password Reset Token',
             'email' => 'Email',
             'status' => 'Status',
             'role' => 'Role',
-            'is_admin' => 'Is Admin',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'date_create' => 'Date Create',
-            'date_update' => 'Date Update',
         ];
     }
 
