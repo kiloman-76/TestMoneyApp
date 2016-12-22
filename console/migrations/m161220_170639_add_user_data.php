@@ -7,7 +7,7 @@ class m161220_170639_add_user_data extends Migration
     public function safeUp()
     {
         $auth_key = Yii::$app->security->generateRandomString();
-        $date = Yii::$app->formatter->asTimestamp(date('Y-d-m h:i:s'));
+        $date = Yii::$app->formatter->asTimestamp(date('U'));
         Yii::$app->db->createCommand()->insert('user', [
        'password' => 'password', 'email' =>'root1@mail.ru',  'auth_key' => $auth_key, 'role' => 10, 'created_at'=> $date, 'updated_at'=>$date])->execute();
         Yii::$app->db->createCommand()->insert('balance', ['balance' => '0', 'user_id' =>'1'])->execute();
