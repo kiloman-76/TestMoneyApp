@@ -36,7 +36,7 @@ class TranslateMoneyForm extends Model
             ['email', 'compare', 'compareValue' => $current_email, 'operator' => '!='],
 
             [ 'amount','double', 'message' => 'Пожалуйста, введите число'],
-            [ 'amount','double','min'=>0, 'message' => 'Сумма не может быть меньше нуля'],
+            [ 'amount','double','min'=>0.01, 'message' => 'Сумма не может быть меньше 1 копейки'],
             [ 'amount','double','message' => 'Сумма отправки не может превышать сумму средств на вашем счету','max'=>$current_balance, ],
 
         ];
@@ -56,12 +56,9 @@ class TranslateMoneyForm extends Model
             $operations = new Operations();
             $operations->money = $this->amount;
             $operations->sender_id = $current_id;
-            $operations->sender_mail = Yii::$app->user->identity->email;
             $operations->recipient_id = $recipient_id;
-            $operations->recipient_mail = $this->email;
             $operations->creator_role = 'user';
             $operations->creator_id = $current_id;
-            $operations->creator_mail = Yii::$app->user->identity->email;
             $balance->takeMoney($current_id, $this->amount);
             $balance->putMoney($recipient_id, $this->amount );
             $operations->sender_balance = $balance->getUserBalance($current_id);

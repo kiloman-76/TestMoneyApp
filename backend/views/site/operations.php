@@ -7,6 +7,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\LinkPager;
+use common\models\User;
 
 $this->title = $name;
 ?>
@@ -26,21 +27,22 @@ $this->title = $name;
             </thead>
             <tbody>
             <?php foreach ($operations as $operation): ?>
+                <?php $user = new User;?>
                 <tr>
                     <td>
 
                     </td>
                     <td>
-                        <?= Html::encode("{$operation->sender_mail}") ?>
+                        <?php echo Html::encode("{$user->getMail($operation->sender_id)}") ?>
                     </td>
                     <td>
-                        <?= Html::encode("{$operation->money}") ?>
+                        <?php echo Html::encode("{$operation->money}") ?>
                     </td>
                     <td>
-                        <?= Html::encode("{$operation->recipient_mail}") ?>
+                        <?php echo Html::encode("{$user->getMail($operation->recipient_id)}") ?>
                     </td>
                     <td>
-                        <?= Html::encode("{$operation->creator_mail}") ?>
+                        <?php echo Html::encode("{$user->getMail($operation->creator_id)}") ?>
                     </td>
 
 

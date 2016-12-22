@@ -47,6 +47,12 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasOne(Balance::className(), ['user_id' => 'id']);
     }
 
+    public function getMail($id)
+    {
+        return $this->findOne(['id' => $id])->email;
+    }
+
+
     public function behaviors()
     {
         return [

@@ -17,13 +17,10 @@ class m161204_135450_create_operations_table extends Migration
             'money' => $this->decimal(10,2),
             'sender_id' => $this->integer(),
             'sender_balance' => $this->decimal(10,2),
-            'sender_mail' => $this->string(100),
             'recipient_id' => $this->integer(),
             'recipient_balance' => $this->decimal(10,2),
-            'recipient_mail' => $this->string(100),
-            'operation_date' => $this->dateTime(),
+            'operation_date' => $this->integer()->notNull(),
             'creator_role' => $this->string(5),
-            'creator_mail' => $this->string(100),
             'creator_id' => $this->integer()
         ]);
 

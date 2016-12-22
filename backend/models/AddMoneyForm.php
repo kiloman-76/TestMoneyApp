@@ -20,7 +20,7 @@ class AddMoneyForm extends Model
             // username and password are both required
 
             [ 'amount','double', 'message' => 'Пожалуйста, введите число'],
-            [ 'amount','double','min'=>0, 'message' => 'Сумма не может быть меньше нуля'],
+            [ 'amount','double','min'=>0.01, 'message' => 'Сумма не может быть меньше 1 копейки'],
 
 
         ];
@@ -44,11 +44,9 @@ class AddMoneyForm extends Model
             $operations->money = $this->amount;
 
             $operations->recipient_id = $recipient_id;
-            $operations->recipient_mail = $recipient_mail;
 
             $operations->creator_role = 'admin';
             $operations->creator_id = $current_id;
-            $operations->creator_mail = $current_email;
 
             $balance->putMoney($recipient_id, $this->amount );
             $operations->recipient_balance = $balance->getUserBalance($recipient_id);

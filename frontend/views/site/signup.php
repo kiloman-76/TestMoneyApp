@@ -12,9 +12,19 @@ $this->title = 'Регистрация';
 
 ?>
 <div class="site-signup">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?php echo Html::encode($this->title) ?></h1>
 
-
+    <?php
+    if($message){
+        ?>
+        <p>
+                <span>
+                    <?= Html::encode("{$message}") ?>
+                </span>
+        </p>
+        <?
+    }
+    ?>
     <p>Пожалуйста, заполните все поля, чтобы зарегистрироваться</p>
 
     <div class="row">
@@ -24,6 +34,8 @@ $this->title = 'Регистрация';
                 <?= $form->field($model, 'email')->label('Почтовый адрес') ?>
 
                 <?= $form->field($model, 'password')->passwordInput()->label('Пароль') ?>
+
+                <?= $form->field($model, 'confirm')->passwordInput()->label('Подтвердите пароль') ?>
 
                 <div class="form-group">
                     <?= Html::submitButton('Зарегистрироваться', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>

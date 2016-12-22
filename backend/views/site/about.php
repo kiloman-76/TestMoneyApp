@@ -3,6 +3,7 @@
 /* @var $this yii\web\View */
 use yii\helpers\Html;
 use yii\helpers\Url;
+use common\models\User;
 $this->title = 'Информация о пользователе';
 $time_creation = date('d M Y H:i:s', $user->created_at);
 if( Yii::$app->user->isGuest){
@@ -55,13 +56,13 @@ if( Yii::$app->user->isGuest){
 
                         <?if($operation->creator_role == 'admin'){?>
                         <p><span class="operation-item red">
-                                <?=Html::encode("Переведено {$operation->money} руб. пользователю {$operation->recipient_mail} администратором {$operation->creator_mail} {$time_operation}. Баланс пользователя {$operation->sender_balance} руб."); ?>
+                                <?=Html::encode("Переведено {$operation->money} руб. пользователю {$user->getMail($operation->recipient_id)} администратором {$user->getMail($operation->creator_id)} {$time_operation}. Баланс пользователя {$operation->sender_balance} руб."); ?>
                             </span></p>
 
                         <?
                     } else if ($operation->creator_role != 'admin'){ ?>
                         <p><span class="operation-item red">
-                            <?=Html::encode("Отправлено {$operation->money} руб. пользователю {$operation->recipient_mail} {$time_operation}. Баланс пользователя {$operation->sender_balance} руб.");?>
+                            <?=Html::encode("Отправлено {$operation->money} руб. пользователю {$user->getMail($operation->recipient_id)} {$time_operation}. Баланс пользователя {$operation->sender_balance} руб.");?>
                         </span></p>
                         <?
                     }
@@ -71,19 +72,19 @@ if( Yii::$app->user->isGuest){
                         if($operation->creator_role == 'admin'){
                             if($operation->sender_id){?>
                                 <p><span class="operation-item green">
-                                    <?=Html::encode("Переведено {$operation->money} руб. администратором {$operation->creator_mail} со счета пользователя {$operation->sender_mail} {$time_operation}. Баланс пользователя {$operation->recipient_balance} руб."); ?>
+                                    <?=Html::encode("Переведено {$operation->money} руб. администратором {$user->getMail($operation->creator_id)} со счета пользователя {$user->getMail($operation->sender_id)} {$time_operation}. Баланс пользователя {$operation->recipient_balance} руб."); ?>
                                 </span></p>
                                 <?
                             } else {
                                 ?>
                                     <p><span class="operation-item green">
-                                        <?=Html::encode("Начислено {$operation->money} руб. администратором {$operation->creator_mail} {$time_operation}. Баланс пользователя {$operation->recipient_balance} руб."); ?>
+                                        <?=Html::encode("Начислено {$operation->money} руб. администратором {$user->getMail($operation->creator_id)} {$time_operation}. Баланс пользователя {$operation->recipient_balance} руб."); ?>
                                     </span></p>
                                 <?
                             }
                         } else if ($operation->creator_role != 'admin'){ ?>
                             <p><span class="operation-item green">
-                                <?=Html::encode("Получено {$operation->money} руб. от пользователя {$operation->sender_mail} {$time_operation}. Баланс пользователя {$operation->recipient_balance} руб."); ?>
+                                <?=Html::encode("Получено {$operation->money} руб. от пользователя {$user->getMail($operation->sender_id)} {$time_operation}. Баланс пользователя {$operation->recipient_balance} руб."); ?>
                             </span></p>
                             <?
                         }

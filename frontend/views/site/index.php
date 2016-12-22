@@ -10,17 +10,6 @@ if( Yii::$app->user->isGuest){
 
     <div class="jumbotron">
         <h1 class="main-header">Добро пожаловать!</h1>
-        <?php
-        if($message){
-            ?>
-            <p>
-                <span>
-                    <?= Html::encode("{$message}") ?>
-                </span>
-            </p>
-            <?
-        }
-        ?>
 
         <p class="lead">Чтобы получить доступ к денежным операциям, вам необходимо войти, или зарегистрироваться</p>
 

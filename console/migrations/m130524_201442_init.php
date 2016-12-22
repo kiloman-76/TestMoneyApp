@@ -18,22 +18,13 @@ class m130524_201442_init extends Migration
             'password' => $this->string()->notNull(),
             'email' => $this->string()->notNull()->unique(),
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
-            'creation_date' => $this->date(),
             'role' => $this->integer(),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
 
         ], $tableOptions);
-
-        $this->execute($this->addUserSql());
-
     }
 
-    private function addUserSql(){
-        $auth_key = Yii::$app->security->generateRandomString();
-        $date = Yii::$app->formatter->asTimestamp(date('Y-d-m h:i:s'));
-        return "INSERT INTO {{%user}} (`password`, `email`,  `auth_key`, `role`, `created_at`, `updated_at`) VALUES ('root', 'root@mail.ru', '$auth_key', 10, $date, $date )";
-    }
 
 
     public function down()

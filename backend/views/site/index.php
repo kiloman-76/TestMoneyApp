@@ -33,8 +33,8 @@ $this->title = 'My Yii Application';
             </thead>
             <tbody>
             <?php foreach ($users as $user): ?>
-                <?$time_operation = date('d M Y H:i:s', $user->created_at);?>
-              <?
+                <?php $time_operation = date('d M Y H:i:s', $user->created_at);?>
+              <?php
                 $operation = new Operations();
 
                 $taked_money = $operation -> takedMoney($user->id);
@@ -46,31 +46,31 @@ $this->title = 'My Yii Application';
 
                     </td>
                     <td>
-                        <?= Html::encode("{$user->email}") ?>
+                        <?php echo Html::encode("{$user->email}") ?>
                     </td>
                     <td>
-                        <?= Html::encode("{$user->balance->balance}") ?>
+                        <?php echo Html::encode("{$user->balance->balance}") ?>
                     </td>
                     <td>
-                        <?= Html::encode("$time_operation") ?>
+                        <?php echo Html::encode("$time_operation") ?>
                     </td>
                     <td>
-                        <?= Html::encode("$taked_money") ?>
+                        <?php echo Html::encode("$taked_money") ?>
                     </td>
                     <td>
-                        <?= Html::encode("$sended_money") ?>
+                        <?php echo Html::encode("$sended_money") ?>
                     </td>
                     <td>
-                        <a title="Просмотр" aria-label="Просмотр" href= <?echo Url::to(['/site/about-user','id' => $user->id]);?>>
+                        <a title="Просмотр" aria-label="Просмотр" href= <?php echo Url::to(['/site/about-user','id' => $user->id]);?>>
                             <span class="glyphicon glyphicon-eye-open"></span>
                         </a>
-                        <a title="Редактировать" aria-label="Редактировать" href= <?echo Url::to(['/user/update','id' => $user->id]);?>>
+                        <a title="Редактировать" aria-label="Редактировать" href= <?php echo Url::to(['/user/update','id' => $user->id]);?>>
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
-                        <a title="Зачислить деньги" aria-label="Зачислить деньги" href= <?echo Url::to(['/site/add-money','id' => $user->id]);?>>
+                        <a title="Зачислить деньги" aria-label="Зачислить деньги" href= <?php echo Url::to(['/site/add-money','id' => $user->id]);?>>
                             <span class="glyphicon glyphicon-usd"></span>
                         </a>
-                        <a title="Перевести деньги" aria-label="Перевести деньги" href= <?echo Url::to(['/site/send-money','id' => $user->id]);?>>
+                        <a title="Перевести деньги" aria-label="Перевести деньги" href= <?php echo Url::to(['/site/send-money','id' => $user->id]);?>>
                             <span class="glyphicon glyphicon-arrow-right"></span>
                         </a>
                     </td>

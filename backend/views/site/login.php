@@ -7,27 +7,32 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Login';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Войти';
 ?>
 <div class="site-login">
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please fill out the following fields to login:</p>
+    <p>Пожалуйста, заполните все поля, чтобы войти на сайт</p>
 
     <div class="row">
         <div class="col-lg-5">
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+            <?
+            if($model->login_error){
+                echo 'Вы не подтвердили ваш почтовый адрес!';
+            }
+            ?>
 
-                <?= $form->field($model, 'password')->passwordInput() ?>
+            <?= $form->field($model, 'email')->textInput(['autofocus' => true])->label('Почтовый адрес') ?>
 
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
+            <?= $form->field($model, 'password')->passwordInput()->label('Пароль') ?>
 
-                <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-                </div>
+
+
+            <div class="form-group">
+                <?= Html::submitButton('Войти', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+            </div>
 
             <?php ActiveForm::end(); ?>
         </div>

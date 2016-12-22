@@ -20,7 +20,7 @@ class m161204_050235_create_balance_table extends Migration
 
         $this->createTable('{{%balance}}', [
             'id' => $this->primaryKey(),
-            'balance' => $this->decimal(),
+            'balance' => $this->decimal()->defaultValue(0),
             'user_id' => $this->integer()
         ]);
 
@@ -28,14 +28,8 @@ class m161204_050235_create_balance_table extends Migration
         $this->addForeignKey(
             'fk_id_user', '{{%balance}}', 'user_id', '{{%user}}', 'id', 'CASCADE'
         );
-        $this->execute($this->addUserSql());
     }
 
-    private function addUserSql(){
-        $auth_key = Yii::$app->security->generateRandomString();
-        $date = Yii::$app->formatter->asTimestamp(date('Y-d-m h:i:s'));
-        return "INSERT INTO {{%balance}} (`balance`,`user_id`) VALUES (0,1)";
-    }
 
     /**
      * @inheritdoc

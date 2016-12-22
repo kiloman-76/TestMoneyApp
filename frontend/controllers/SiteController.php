@@ -97,8 +97,12 @@ class SiteController extends Controller
         if($user -> auth_key == $token){
             $user -> role = 1;
             $user -> save();
-            return $this->render('index', [
+            return $this->render('message', [
                 'message' => "Вы успешно зарегистрировались на сайте. Теперь вы можете войти в приложение, используя адрес своей почты и пароль ",
+            ]);
+        } else {
+            return $this->render('message', [
+                'message' => "Ошибка регистрации. Пожалуйста, вставьте правильную ссылку",
             ]);
         }
     }
@@ -168,19 +172,14 @@ class SiteController extends Controller
     public function actionSignup()
     {
         $balance = new Balance();
-
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
                 $balance->user_id = $user->id;
                 $balance->save();
                 if ($model->verificationMail($user)){
-                    return $this->render('signup', [
+                    return $this->render('message', [
                         'message' => 'На ваш почтовый ящик отправлено письмо с дальнейшими инструкциями',
-                    ]);
-                } else{
-                    return $this->render('signup', [
-                        'model' => $model,
                     ]);
                 }
 //                if (Yii::$app->getUser()->login($user)) {
@@ -188,13 +187,10 @@ class SiteController extends Controller
 //                    return $this->goHome();
 //                }
             }
-        } else {
-            return $this->render('signup', [
-                'model' => $model,
-            ]);
         }
-
-
+        return $this->render('signup', [
+            'model' => $model,
+        ]);
     }
 
 }

@@ -31,7 +31,7 @@ class Operations extends ActiveRecord
 
 
         $query1 = Operations::find()
-            ->select(['money', 'sender_id', 'sender_balance', 'sender_mail', 'recipient_id', 'recipient_balance', 'recipient_mail', 'operation_date', 'creator_role', 'creator_id', 'creator_mail'])
+            ->select(['money', 'sender_id', 'sender_balance', 'recipient_id', 'recipient_balance', 'operation_date', 'creator_role', 'creator_id'])
             ->where(['recipient_id' => $id])->orWhere(['sender_id' => $id])->orderBy('operation_date') ->all();
 
 

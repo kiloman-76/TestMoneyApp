@@ -39,7 +39,7 @@ class SendMoneyForm extends Model
             ['email', 'compare', 'compareValue' => $current_email, 'operator' => '!='],
 
             [ 'amount','double', 'message' => 'Пожалуйста, введите число'],
-            [ 'amount','double','min'=>0, 'message' => 'Сумма не может быть меньше нуля'],
+            [ 'amount','double','min'=>0.01, 'message' => 'Сумма не может быть меньше 1 копейки'],
             [ 'amount','double','message' => 'Сумма отправки не может превышать сумму средств на вашем счету','max'=>$current_balance, ],
 
         ];
@@ -68,14 +68,11 @@ class SendMoneyForm extends Model
             $operations->money = $this->amount;
 
             $operations->sender_id = $sender_id;
-            $operations->sender_mail = $sender_mail;
 
             $operations->recipient_id = $recipient_id;
-            $operations->recipient_mail = $this->email;
 
             $operations->creator_role = 'admin';
             $operations->creator_id = $admin_id;
-            $operations->creator_mail = Yii::$app->user->identity->email;;
 
             $balance->takeMoney($sender_id, $this->amount);
             $balance->putMoney($recipient_id, $this->amount );

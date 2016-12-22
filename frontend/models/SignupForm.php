@@ -15,6 +15,7 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
+    public $confirm;
 
 
     /**
@@ -31,6 +32,9 @@ class SignupForm extends Model
 
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
+
+            ['confirm', 'required'],
+            ['confirm', 'compare', 'compareAttribute' => 'password', 'operator' => '=='],
 
         ];
     }
