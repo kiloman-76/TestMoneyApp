@@ -20,7 +20,7 @@ class m161204_050235_create_balance_table extends Migration
 
         $this->createTable('{{%balance}}', [
             'id' => $this->primaryKey(),
-            'balance' => $this->decimal()->defaultValue(0),
+            'balance' => $this->decimal(10,2)->defaultValue(1000),
             'user_id' => $this->integer()
         ]);
 

@@ -52,7 +52,7 @@ $this->title = $name;
             </tbody>
         </table>
 
-        <?= LinkPager::widget(['pagination' => $pagination]) ?>
+        <?php echo LinkPager::widget(['pagination' => $pagination]) ?>
 
 
     </div>

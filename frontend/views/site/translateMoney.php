@@ -31,22 +31,22 @@ $this->title = 'Перевести деньги';
                 ]); ?>
                     <p>
                         <span class="balance">
-                            <?= Html::encode("Ваш баланс: {$balance} руб.") ?>
+                            <?php echo Html::encode("Ваш баланс: {$balance} руб.") ?>
                         </span>
                     </p>
                 <div class="row">
                     <div class="col-lg-5 ">
-                        <?= $form->field($model, 'email')->textInput(['autofocus' => true])->label('Адрес получателя') ?>
+                        <?php echo $form->field($model, 'email')->textInput(['autofocus' => true])->label('Адрес получателя') ?>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-5">
-                        <?= $form->field($model, 'amount')->label('Сумма') ?>
+                        <?php echo $form->field($model, 'amount')->label('Сумма') ?>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-5 form-group">
-                        <?= Html::submitButton('Перечислить', ['class' => 'btn btn-index btn-primary', 'name' => 'signup-button']) ?>
+                        <?php echo Html::submitButton('Перечислить', ['class' => 'btn btn-index btn-primary', 'name' => 'signup-button']) ?>
                     </div>
                 </div>
             </div>

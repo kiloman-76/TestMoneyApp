@@ -15,7 +15,7 @@ class m161220_170639_add_user_data extends Migration
 
     public function safeDown()
     {
-        Yii::$app->db->createCommand()->delete('news', ['id' => 1]);
+        Yii::$app->db->createCommand()->delete('user', ['id' => 1]);
         Yii::$app->db->createCommand()->delete('balance', ['user_id' => 1]);
     }
 

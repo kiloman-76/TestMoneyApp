@@ -15,36 +15,36 @@ $this->title = 'Мои операции';
                 $user = new User;
                 if($operation->sender_id == Yii::$app->user->id){?>
 
-                    <?if($operation->creator_role == 'admin'){?>
+                    <?php if($operation->creator_role == 'admin'){?>
                     <p><span class="operation-item red">
-                            <?=Html::encode("С вашего счета отправлено {$operation->money} руб. пользователю {$user->getMail($operation->recipient_id)} {$time_operation}. Ваш баланс {$operation->sender_balance} руб."); ?>
+                            <?php echo Html::encode("С вашего счета отправлено {$operation->money} руб. пользователю {$user->getMail($operation->recipient_id)} {$time_operation}. Ваш баланс {$operation->sender_balance} руб."); ?>
                         </span></p>
 
-                    <?
+                    <?php
                 } else if ($operation->creator_role != 'admin'){ ?>
                     <p><span class="operation-item red">
-                        <?=Html::encode("Вы отправили {$operation->money} руб. пользователю {$user->getMail($operation->recipient_id)} {$time_operation}. Ваш баланс {$operation->sender_balance} руб.");?>
+                        <?php echo Html::encode("Вы отправили {$operation->money} руб. пользователю {$user->getMail($operation->recipient_id)} {$time_operation}. Ваш баланс {$operation->sender_balance} руб.");?>
                     </span></p>
-                    <?
+                    <?php
                 }
                 ?>
 
-                <?} else if ($operation->recipient_id == Yii::$app->user->id) {
+                <?php } else if ($operation->recipient_id == Yii::$app->user->id) {
                     if($operation->creator_role == 'admin'){?>
                         <p><span class="operation-item green">
-                            <?=Html::encode("Вам начислено {$operation->money} руб.  {$time_operation}. Ваш баланс {$operation->recipient_balance} руб."); ?>
+                            <?php echo Html::encode("Вам начислено {$operation->money} руб.  {$time_operation}. Ваш баланс {$operation->recipient_balance} руб."); ?>
                         </span></p>
 
-                        <?
+                        <?php
                     } else if ($operation->creator_role != 'admin'){ ?>
                         <p><span class="operation-item green">
-                            <?=Html::encode("Вам отправил {$operation->money} руб. пользователь {$user->getMail($operation->sender_id)} {$time_operation}. Ваш баланс {$operation->recipient_balance} руб."); ?>
+                            <?php echo Html::encode("Вам отправил {$operation->money} руб. пользователь {$user->getMail($operation->sender_id)} {$time_operation}. Ваш баланс {$operation->recipient_balance} руб."); ?>
                         </span></p>
-                        <?
+                        <?php
                     }
                     ?>
 
-                <?}
+                <?php }
 
 
             }

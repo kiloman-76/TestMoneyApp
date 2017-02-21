@@ -176,6 +176,7 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
                 $balance->user_id = $user->id;
+                $balance->balance = 1000;
                 $balance->save();
                 if ($model->verificationMail($user)){
                     return $this->render('message', [

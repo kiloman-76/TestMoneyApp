@@ -19,10 +19,10 @@ $this->title = 'Регистрация';
         ?>
         <p>
                 <span>
-                    <?= Html::encode("{$message}") ?>
+                    <?php echo Html::encode("{$message}") ?>
                 </span>
         </p>
-        <?
+        <?php
     }
     ?>
     <p>Пожалуйста, заполните все поля, чтобы зарегистрироваться</p>
@@ -31,14 +31,14 @@ $this->title = 'Регистрация';
         <div class="col-lg-5">
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
-                <?= $form->field($model, 'email')->label('Почтовый адрес') ?>
+                <?php echo $form->field($model, 'email')->label('Почтовый адрес') ?>
 
-                <?= $form->field($model, 'password')->passwordInput()->label('Пароль') ?>
+                <?php echo $form->field($model, 'password')->passwordInput()->label('Пароль') ?>
 
-                <?= $form->field($model, 'confirm')->passwordInput()->label('Подтвердите пароль') ?>
+                <?php echo $form->field($model, 'confirm')->passwordInput()->label('Подтвердите пароль') ?>
 
                 <div class="form-group">
-                    <?= Html::submitButton('Зарегистрироваться', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                    <?php echo Html::submitButton('Зарегистрироваться', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
                 </div>
 
             <?php ActiveForm::end(); ?>

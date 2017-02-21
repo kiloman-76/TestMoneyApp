@@ -57,10 +57,11 @@ class SignupForm extends Model
         if (!$this->validate()) {
             return null;
         }
+
         $user = new User();
         $user->email = $this->email;
         $user->role = 0;
-        $user->password = $this->password;
+        $user->password = password_hash($this->password,PASSWORD_DEFAULT);
         $user->generateAuthKey();
         return $user->save() ? $user : null;
     }

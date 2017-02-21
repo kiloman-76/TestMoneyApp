@@ -16,13 +16,13 @@ if( Yii::$app->user->isGuest){
         ?>
         <p class="lead">Чтобы получить доступ к денежным операциям, вам необходимо войти, или зарегистрироваться</p>
 
-        <a class="btn btn-lg btn-success" href= <?echo Url::to(['/site/login']);?>>Войти</a>
-        <a class="btn btn-lg btn-success" href= <?echo Url::to(['/site/signup']);?>>Зарегистрироваться</a></p>
+        <a class="btn btn-lg btn-success" href= <?php echo Url::to(['/site/login']);?>>Войти</a>
+        <a class="btn btn-lg btn-success" href= <?php echo Url::to(['/site/signup']);?>>Зарегистрироваться</a></p>
     </div>
 
 
 </div>
-<?} else{?>
+<?php} else{?>
     <div class="site-index">
         <div class="row">
             <p>
@@ -33,15 +33,15 @@ if( Yii::$app->user->isGuest){
             <table border = '1' class = 'user-table'>
                 <tr>
                     <td>Email:</td>
-                    <td> <?=Html::encode("{$user->email}"); ?></td>
+                    <td> <?php echo Html::encode("{$user->email}"); ?></td>
                 </tr>
                 <tr>
                     <td>Добавлен:</td>
-                    <td><?=Html::encode("{$time_creation}"); ?></td>
+                    <td><?php echo Html::encode("{$time_creation}"); ?></td>
                 </tr>
                 <tr>
                     <td>Баланс:</td>
-                    <td><?=Html::encode("{$balance} руб."); ?></td>
+                    <td><?php echo Html::encode("{$balance} руб."); ?></td>
                 </tr>
             </table>
         </div>
@@ -54,43 +54,43 @@ if( Yii::$app->user->isGuest){
                     $time_operation = date('d M Y H:i:s', $operation->operation_date);
                     if($operation->sender_id == $user->id){?>
 
-                        <?if($operation->creator_role == 'admin'){?>
+                        <?php if($operation->creator_role == 'admin'){?>
                         <p><span class="operation-item red">
-                                <?=Html::encode("Переведено {$operation->money} руб. пользователю {$user->getMail($operation->recipient_id)} администратором {$user->getMail($operation->creator_id)} {$time_operation}. Баланс пользователя {$operation->sender_balance} руб."); ?>
+                                <?php echo Html::encode("Переведено {$operation->money} руб. пользователю {$user->getMail($operation->recipient_id)} администратором {$user->getMail($operation->creator_id)} {$time_operation}. Баланс пользователя {$operation->sender_balance} руб."); ?>
                             </span></p>
 
-                        <?
-                    } else if ($operation->creator_role != 'admin'){ ?>
-                        <p><span class="operation-item red">
-                            <?=Html::encode("Отправлено {$operation->money} руб. пользователю {$user->getMail($operation->recipient_id)} {$time_operation}. Баланс пользователя {$operation->sender_balance} руб.");?>
-                        </span></p>
-                        <?
-                    }
+                        <?php
+                        } else if ($operation->creator_role != 'admin'){ ?>
+                            <p><span class="operation-item red">
+                                <?php echo Html::encode("Отправлено {$operation->money} руб. пользователю {$user->getMail($operation->recipient_id)} {$time_operation}. Баланс пользователя {$operation->sender_balance} руб.");?>
+                            </span></p>
+                            <?php
+                        }
                     ?>
 
-                    <?} else if ($operation->recipient_id == $user->id) {
+                    <?php } else if ($operation->recipient_id == $user->id) {
                         if($operation->creator_role == 'admin'){
                             if($operation->sender_id){?>
                                 <p><span class="operation-item green">
-                                    <?=Html::encode("Переведено {$operation->money} руб. администратором {$user->getMail($operation->creator_id)} со счета пользователя {$user->getMail($operation->sender_id)} {$time_operation}. Баланс пользователя {$operation->recipient_balance} руб."); ?>
+                                    <?php echo Html::encode("Переведено {$operation->money} руб. администратором {$user->getMail($operation->creator_id)} со счета пользователя {$user->getMail($operation->sender_id)} {$time_operation}. Баланс пользователя {$operation->recipient_balance} руб."); ?>
                                 </span></p>
-                                <?
+                                <?php
                             } else {
                                 ?>
                                     <p><span class="operation-item green">
-                                        <?=Html::encode("Начислено {$operation->money} руб. администратором {$user->getMail($operation->creator_id)} {$time_operation}. Баланс пользователя {$operation->recipient_balance} руб."); ?>
+                                        <?php echo Html::encode("Начислено {$operation->money} руб. администратором {$user->getMail($operation->creator_id)} {$time_operation}. Баланс пользователя {$operation->recipient_balance} руб."); ?>
                                     </span></p>
-                                <?
+                                <?php
                             }
                         } else if ($operation->creator_role != 'admin'){ ?>
                             <p><span class="operation-item green">
-                                <?=Html::encode("Получено {$operation->money} руб. от пользователя {$user->getMail($operation->sender_id)} {$time_operation}. Баланс пользователя {$operation->recipient_balance} руб."); ?>
+                                <?php echo Html::encode("Получено {$operation->money} руб. от пользователя {$user->getMail($operation->sender_id)} {$time_operation}. Баланс пользователя {$operation->recipient_balance} руб."); ?>
                             </span></p>
-                            <?
+                            <?php
                         }
                         ?>
 
-                    <?}
+                    <?php }
 
 
                 }

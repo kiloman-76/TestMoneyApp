@@ -18,11 +18,11 @@ $this->title = $name;
         ?>
         <p>
                 <span>
-                    <?= Html::encode("{$message}") ?>
+                    <?php echo Html::encode("{$message}") ?>
                 </span>
         </p>
         <?php
     }
     ?>
-    <a href= <?echo Url::to(['/site/index']);?>>На главную</a>
+    <a href= <?php echo Url::to(['/site/index']);?>>На главную</a>
 </div>

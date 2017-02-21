@@ -22,17 +22,17 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <p>
         <span class="balance">
-                <?= Html::encode("Баланс пользователя: {$balance} руб.") ?>
+                <?php echo Html::encode("Баланс пользователя: {$balance} руб.") ?>
         </span>
     </p>
     <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
     <div class="row">
         <div class="col-lg-4">
-            <?= $form->field($model, 'amount')->label('Сумма') ?>
+            <?php echo $form->field($model, 'amount')->label('Сумма') ?>
         </div>
     </div>
     <div class="form-group">
-        <?= Html::submitButton('Перечислить', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+        <?php echo Html::submitButton('Перечислить', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
     </div>
     <?php ActiveForm::end(); ?>
 </div>

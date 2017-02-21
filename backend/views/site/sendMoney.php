@@ -19,24 +19,24 @@ use yii\bootstrap\ActiveForm;
 
     <p>
         <span class="balance">
-                <?= Html::encode("Баланс пользователя {$current_email} : {$balance} руб.") ?>
+                <?php echo Html::encode("Баланс пользователя {$current_email} : {$balance} руб.") ?>
         </span>
     </p>
     <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
     <div class="row">
         <div class="col-lg-6">
-            <?= $form->field($model, 'email')->textInput(['autofocus' => true])->label('Адрес получателя') ?>
+            <?php echo $form->field($model, 'email')->textInput(['autofocus' => true])->label('Адрес получателя') ?>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-6">
-            <?= $form->field($model, 'amount')->label('Сумма') ?>
+            <?php echo $form->field($model, 'amount')->label('Сумма') ?>
         </div>
     </div>
 
     <div class="form-group">
-        <?= Html::submitButton('Перечислить', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+        <?php echo Html::submitButton('Перечислить', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
